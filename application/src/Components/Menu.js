@@ -1,84 +1,52 @@
 import React, { Component } from 'react';
 import hamburger from './image.png';
+import '../Components/menu.css';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+
+const styles = {
+    transition: 'all .4s cubic-bezier(.65, .05, .36, 1)',    
+  };
+
 class Menu extends Component {    
     state ={
-        isOpen:true
+        isOpen:true,
+        opacity:1,
+        scale:1,
+        flip:false,
     }
     
     render (){
-        const body = this.state.isOpen && <div style={styles.sidebar}> Сайдбар</div>
+        const body = this.state.isOpen &&           
+                <div className="sidebar slide" 
+                style={{...styles, opacity:this.state.opacity}}> Сайдбар</div>           
         return (
-            <div style={styles.conteiner}>
-                <div style={styles.search}>
-                    <div style={styles.button}>
-                        <a href="#" onClick={this.handleClick}><img style={styles.hamburger} src={hamburger}/></a> 
+            <div className="conteiner">
+                <div className="search">
+                    <div className="button">
+                        <a style={{cursor:'pointer'}}href="#" onClick={this.handleClick}><img className={"hamburger "+(this.state.flip ? 'flip': '')} src={hamburger}/></a> 
                     </div>
-                    <input placeholder="Поиск на Lil Way" style={styles.input} type="text"></input>                    
-                </div>            
+                    <input placeholder="Поиск на Lil Way" className="input" type="text"></input>                    
+                </div>
+                <ReactCSSTransitionGroup 
+                 transitionName="fade"
+                 transitionEnter={300}
+                 transitionLeave={300}
+                 >         
                 {body}   
+                </ReactCSSTransitionGroup>
             </div>
         )
     }
     handleClick = () => {
         this.setState({
-            isOpen: !this.state.isOpen
-        }) 
-     }   
+            // opacity: this.state.opacity? 0 : 1,
+            isOpen:!this.state.isOpen,  
+            flip:!this.state.flip
+        })
+        
+    }     
 }
-const styles = {    
-    conteiner: {
-    position: 'absolute', 
-    height:'76%' ,         
-    top: 0,
-    left: 0,
-    
-      
-    },
-    search:{
-    position: 'relative',
-    width: '344px',
-    margin: '0 auto',
-    background:'white',
-    height:'35px',
-    top:'50px',
-    left:'17px',
-    borderRadius:'5px',
-    padding:'10px',
-    
-    
-    },
-    hamburger:{
-    width:'40px',
-    height:'40px',   
-       
-    },
-    
-    input:{     
-    position:'relative',
-    border: 'none',
-    outline: 'none',
-    fontSize:'20px',
-    left:'20px',
-    bottom:'13px',
-   
-    
-    },
-    button:{      
-    display:'inline-block',        
-    border: 'white',
-    textDecorationLine: 'underline',
-    
-    },
-    sidebar: {
-    position: 'absolute',
-    background: 'white',    
-    width: '364px',
-    height:'100%',
-    top: 117,
-    left: 17,
-    borderRadius:'5px',
-       
-    }
-  };
+
+
 
 export default Menu
