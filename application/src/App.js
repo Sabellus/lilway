@@ -4,7 +4,7 @@ import MapScreen from './Screen/MapScreen.js';
 class App extends Component {  
   render() {    
     return (
-      <div >      
+      <div>      
       <MapScreen />  
       </div>    
     )
